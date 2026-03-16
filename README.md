@@ -77,6 +77,60 @@ TMS/
 
 ---
 
+## Quick Setup And Deployment
+
+### Local development
+
+1. Install dependencies in both apps:
+
+```bash
+cd backend && npm install
+cd ../frontend && npm install
+```
+
+2. Configure environment files:
+
+- Copy `backend/.env.example` to `backend/.env`
+- Create `frontend/.env.local` with:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5001/api
+```
+
+3. Start PostgreSQL, then run backend setup:
+
+```bash
+cd backend
+npm run prisma:migrate
+npm run prisma:seed
+npm run dev
+```
+
+4. Start the frontend in a second terminal:
+
+```bash
+cd frontend
+npm run dev
+```
+
+5. Open `http://localhost:3000/login`
+
+Demo credentials after seeding:
+
+- `demo@tms.dev`
+- `Demo@1234`
+
+### Deployment notes
+
+- Set `NODE_ENV=production` in the backend environment
+- Set strong `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` values
+- Set `CORS_ORIGIN` to your deployed frontend URL
+- Set `NEXT_PUBLIC_API_URL` to your deployed backend API URL
+- Cookies are `HttpOnly`; in production they are also `Secure`
+- Run `npm run build` in both `backend` and `frontend` before deployment
+
+---
+
 ## Backend Setup
 
 ```bash
@@ -94,7 +148,7 @@ Edit `.env` and set:
 DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/taskflow_db"
 JWT_ACCESS_SECRET="your-super-secret-access-key-min-32-chars"
 JWT_REFRESH_SECRET="your-super-secret-refresh-key-min-32-chars"
-PORT=5000
+PORT=5001
 CORS_ORIGIN=http://localhost:3000
 ```
 
@@ -106,17 +160,17 @@ createdb taskflow_db
 npx prisma migrate dev --name init
 
 # 5. Seed demo data (optional)
-npx ts-node src/prisma/seed.ts
+npm run prisma:seed
 
 # 6. Start development server
 npm run dev
 ```
 
-The backend will be available at `http://localhost:5000`.
+The backend will be available at `http://localhost:5001`.
 
 ### Health check
 ```
-GET http://localhost:5000/api/health
+GET http://localhost:5001/api/health
 ```
 
 ---
@@ -129,13 +183,13 @@ cd frontend
 # 1. Install dependencies
 npm install
 
-# 2. Copy environment file
-cp .env.local.example .env.local   # or manually create
+# 2. Create environment file
+touch .env.local
 ```
 
 `.env.local` contents:
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NEXT_PUBLIC_API_URL=http://localhost:5001/api
 ```
 
 ```bash
@@ -239,7 +293,7 @@ npm run lint       # next lint
 | `JWT_REFRESH_SECRET` | ✅ | — | Min 32 chars |
 | `JWT_ACCESS_EXPIRES_IN` | — | `15m` | Access token TTL |
 | `JWT_REFRESH_EXPIRES_IN` | — | `7d` | Refresh token TTL |
-| `PORT` | — | `5000` | Server port |
+| `PORT` | — | `5001` | Server port |
 | `CORS_ORIGIN` | — | `http://localhost:3000` | Allowed CORS origin |
 | `NODE_ENV` | — | `development` | `development` or `production` |
 

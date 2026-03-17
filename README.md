@@ -3,8 +3,9 @@
 A full-stack, production-grade Task Management System built with modern 2024 standards. Features a Node.js/TypeScript/Express/Prisma backend and a Next.js 14 / TailwindCSS / Framer Motion frontend inspired by Notion, Linear, and ClickUp.
 
 ---
-#Live Link
-taskmanager-drab-psi.vercel.app
+## 🌐 Live Demo
+
+[Visit Task Manager](https://taskmanager-drab-psi.vercel.app/login)
 
 
 ## Tech Stack

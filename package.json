@@ -1,9 +1,25 @@
 {
+  "name": "tms",
+  "private": true,
+  "scripts": {
+    "setup": "npm --prefix backend install && npm --prefix frontend install",
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "start": "concurrently -n backend,frontend -c blue,green \"npm --prefix backend run start\" \"npm --prefix frontend run start\"",
+    "type-check": "npm --prefix backend run type-check && npm --prefix frontend run type-check",
+    "lint": "npm --prefix backend run lint && npm --prefix frontend run lint",
+    "prisma:migrate": "npm --prefix backend run prisma:migrate",
+    "prisma:seed": "npm --prefix backend run prisma:seed"
+  },
   "devDependencies": {
-    "@types/node": "^25.5.0"
+    "@types/node": "^25.5.0",
+    "concurrently": "^9.1.2"
   },
   "dependencies": {
     "tailwindcss": "^4.2.1",
     "tailwindcss-animate": "^1.0.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

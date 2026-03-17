@@ -81,17 +81,18 @@ TMS/
 
 ### Local development
 
-1. Install dependencies in both apps:
+1. Install dependencies:
 
 ```bash
-cd backend && npm install
-cd ../frontend && npm install
+npm run setup
 ```
 
 2. Configure environment files:
 
 - Copy `backend/.env.example` to `backend/.env`
-- Create `frontend/.env.local` with:
+- Copy `frontend/.env.example` to `frontend/.env.local`
+
+`frontend/.env.local` example:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5001/api
@@ -115,6 +116,12 @@ npm run dev
 
 5. Open `http://localhost:3000/login`
 
+Or run both apps from the repository root:
+
+```bash
+npm run dev
+```
+
 Demo credentials after seeding:
 
 - `demo@tms.dev`
@@ -127,7 +134,9 @@ Demo credentials after seeding:
 - Set `CORS_ORIGIN` to your deployed frontend URL
 - Set `NEXT_PUBLIC_API_URL` to your deployed backend API URL
 - Cookies are `HttpOnly`; in production they are also `Secure`
-- Run `npm run build` in both `backend` and `frontend` before deployment
+- Run migrations on deploy with `npm --prefix backend run prisma:migrate:deploy`
+- Build both apps from root with `npm run build`
+- Start both apps from root with `npm run start` (or deploy backend/frontend separately)
 
 ---
 
@@ -263,14 +272,23 @@ limit=20
 
 ## Scripts
 
+### Root (recommended)
+```bash
+npm run setup      # install backend + frontend dependencies
+npm run dev        # run backend and frontend concurrently
+npm run build      # build backend and frontend
+npm run start      # start backend and frontend in production mode
+npm run type-check # type-check backend and frontend
+```
+
 ### Backend
 ```bash
 npm run dev        # tsx watch mode
 npm run build      # tsc compile
 npm run start      # node dist/server.js
-npm run db:push    # prisma db push
-npm run db:migrate # prisma migrate dev
-npm run db:studio  # prisma studio
+npm run prisma:migrate        # prisma migrate dev
+npm run prisma:migrate:deploy # prisma migrate deploy (production)
+npm run prisma:studio         # prisma studio
 ```
 
 ### Frontend
